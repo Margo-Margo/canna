@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// default name space for all routes is 'App\Http\Controllers\Api'
+
+Route::prefix('categories')
+    ->group(base_path('routes/api/categories.php'));
+
+Route::prefix('salons')
+    ->group(base_path('routes/api/salons.php'));
+
+Route::prefix('masters')
+    ->group(base_path('routes/api/masters.php'));
+
+Route::prefix('services')
+    ->group(base_path('routes/api/services.php'));
+
+Route::prefix('actions')
+    ->group(base_path('routes/api/actions.php'));
+
+Route::prefix('authorization')
+    ->group(base_path('routes/api/authorization.php'));
+
+Route::any('/{any}', function () {
+    return response()->json([
+        'success' => false,
+        'message' => 'Resource not found',
+    ], 404);
+})->name('api.any.404');
